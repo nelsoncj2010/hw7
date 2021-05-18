@@ -94,8 +94,77 @@ exports.handler = async function(event) {
     returnValue.sections.push(sectionObject)
 
     // 🔥 your code for the reviews/ratings goes here
-  }
 
+    // ask Firebase for the reviews that corresponds to the course number, wait for the response
+    let reviewsQuery = await db.collection('reviews').where(`sectionId`, `==`, sectionId).get()
+
+    // get the documents from the query
+    let reviews = reviewsQuery.docs
+
+    //STEP 2 of HW 
+    // add the reviews to the section Object 
+    sectionObject.reviews = []
+
+    //STEP 3 & 4 
+    // loop through the documents of the reviews
+    for (let j=0; j < reviews.length; j++) {
+
+    // get the review ID of the review 
+    let reviewId = reviews[j].id
+    
+    // get the data from the review
+    let reviewData = reviews[j].data()
+  
+    sectionObject.reviews.push(reviewData)
+    
+    //get the size of the review list
+    reviewsQuery.size
+
+    //get the review ratinbg of each review
+    let review1 = reviews[0].id
+    let review1Rating = review1.rating
+
+    let review2 = reviews[1].id
+    let review2Rating = review2.rating
+
+    let review3 = reviews[2].id
+    let review3Rating = review3.rating
+
+    let review4 = reviews[3].id
+    let review4Rating = review4.rating
+
+    let review5 = reviews[4].id
+    let review5Rating = review5.rating
+
+    let review6 = reviews[5].id
+    let review6Rating = review6.rating
+
+    let review6 = reviews[5].id
+    let review6Rating = review6.rating
+
+    let review7 = reviews[6].id
+    let review7Rating = review7.rating
+
+    let review8 = reviews[7].id
+    let review8Rating = review8.rating
+
+    let review9 = reviews[8].id
+    let review9Rating = review9.rating
+
+    let review10 = reviews[9].id
+    let review9Rating = review9.rating
+
+    let avgRatingEngSection = (review1rating + review2rating + review3rating + review4rating + review5rating)/5
+    let avgRatingBlockSection = (review6rating + review7rating + review8rating + review9rating + review10rating)/5
+    let overallCourseRating = (review1rating + review2rating + review3rating + review4rating + review5rating + review6rating + review7rating + review8rating + review9rating + review10rating)/ 10
+  
+    sectionObject.reviews.push(avgRatingEngSection)
+    sectionObject.reviews.push(avgRatingBlockSection)
+    sectionObject.reviews.push(overallCourseRating)
+  }
+       // end reviews for loop
+  }
+  //end sections for loop 
   // return the standard response
   return {
     statusCode: 200,
